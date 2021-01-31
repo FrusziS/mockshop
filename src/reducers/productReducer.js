@@ -1,10 +1,18 @@
 const productReducer = (state = {}, action) => {
     switch (action.type) {
         case "POPULATE_PRODUCTS":
-
-            return  {...state, isDispatched: true, url: action.payload}
-        case "ERROR":
-            return { ...state, error: action.msg }
+            const productsByCategory = action.payload.reduce(
+                (accumulator, product) => {
+                    const category = product.category;
+                    return {
+                        ...accumulator,
+                        [category]: [...(accumulator[category] || []), product],
+                    };
+                },
+                {}
+            );
+            return  {...state, products: action.payload, productsByCategory}
+            
         default:
             return state
     }

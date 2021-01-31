@@ -1,23 +1,26 @@
 import React from 'react';
+import {getProducts} from '../actions/productActions'
 import CategoriesList from './CategoriesList'
-import {useDispatch, useSelector} from 'react-redux'
-import {POPULATE_PRODUCTS} from '../actions/productAction'
+import {useDispatch} from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles';
+import {useEffect} from 'react'
+
+const useStyles = makeStyles({
+  app: {
+    fontFamily: 'Roboto, Arial, Helvetica, sans-serif',
+  },
+});
 
 function App() {
-  const dispatch = useDispatch()
-  const store = useSelector(store => store)
+  const dispatch = useDispatch();
+  const styles = useStyles();
 
-
-  const dispatchProductAction = () => {
-    dispatch(POPULATE_PRODUCTS)
-  }
-
-  console.log(store);
+  useEffect(() => dispatch(getProducts()), [dispatch]);
+  
   return (
-    <>
-      <button onClick={() => dispatchProductAction()}>Click here to dispatch!</button>
+    <div className={styles.app}>
       <CategoriesList />
-    </>
+    </div>
   );
 }
 
